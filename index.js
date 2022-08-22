@@ -44,6 +44,13 @@ async function run() {
             res.send(result);
         });
 
+        // reviews post api 
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
+            res.json(result);
+        })
+
         // user post api
         app.post('/users', async (req, res) => {
             const user = req.body;
@@ -60,11 +67,47 @@ async function run() {
             const result = await usersCollection.updateOne(filter, updateDoc, options);
             res.json(result);
         });
-        
+
+        app.put('/users/admin', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const updateDoc = { $set: { role: "admin" } };
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        });
+
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const user = await usersCollection.findOne(query);
+            let isAdmin = false;
+            if (user?.role === "admin") {
+                isAdmin = true;
+            }
+            res.json({ admin: isAdmin });
+        })
+
+        // order post
         app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
-            console.log('order post api', result);
+            res.json(result);
+        });
+
+        // order get
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            const filter = { email };
+            const cursor = ordersCollection.find(filter);
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+
+        // delete single order
+        app.delete('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
             res.json(result);
         })
     }
