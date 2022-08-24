@@ -28,7 +28,7 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
-        
+
         // get api single product
         app.get('/products/:id', async (req, res) => {
             const id = req.params.id;
@@ -48,7 +48,7 @@ async function run() {
         // product delete api
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await productsCollection.deleteOne(query);
             res.json(result);
         })
@@ -114,7 +114,6 @@ async function run() {
         app.get('/orders/manage', async (req, res) => {
             const cursor = ordersCollection.find({});
             const result = await cursor.toArray();
-            
             res.send(result);
         });
 
@@ -126,6 +125,16 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
+
+        // updata order status 
+        app.put('/orders', async (req, res) => {
+            const id = req.query.id;
+            const order = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updateDoc = { $set: { status: order.status } };
+            const result = await ordersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
 
         // delete single order
         app.delete('/orders/:id', async (req, res) => {
