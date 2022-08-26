@@ -10,6 +10,7 @@
 - Material Ui
 - React Slick
 - React Router Dom
+- Firebase Hosting
 - Axios
 ### Backend
 - Node Js
@@ -19,6 +20,5 @@
 ### Authentication
 - Firebase
 
-## Live [https://next-car-2971a.web.app/](https://next-car-2971a.web.app/)
-
-## Client [https://github.com/Ikramuddin21/next-car-client](https://github.com/Ikramuddin21/next-car-client)
+## Live: [https://next-car-2971a.web.app/](https://next-car-2971a.web.app/)
+## Client: [https://github.com/Ikramuddin21/next-car-client](https://github.com/Ikramuddin21/next-car-client)
